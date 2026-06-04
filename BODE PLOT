@@ -1,0 +1,18 @@
+%% MATLAB Script: Bode Plot
+% System: G(s)H(s) = (s - 2) / (s^2 + 2s + 2)
+
+clear; clc; close all;
+
+% Define the Transfer Function
+num = [1 -2];       % s - 2
+den = [1 2 2];      % s^2 + 2s + 2
+sys = tf(num, den);
+
+% Configure Plot Environment
+figure('Name', 'Bode Frequency Analysis', 'NumberTitle', 'off');
+set(0, 'DefaultLineLineWidth', 2);
+
+% Generate Bode Diagram
+bode(sys);
+title('Bode Plot: Positive Gain Slope with Severe Negative Phase Shift', 'FontSize', 12);
+grid on;
