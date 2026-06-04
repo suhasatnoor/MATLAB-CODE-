@@ -1,0 +1,35 @@
+%% MATLAB Script: Dedicated Polar Plot
+% System: G(s)H(s) = (s - 2) / (s^2 + 2s + 2)
+
+clear; clc; close all;
+
+% Define the Transfer Function
+num = [1 -2];       % s - 2
+den = [1 2 2];      % s^2 + 2s + 2
+sys = tf(num, den);
+
+% Generate high-density frequency response data
+omega = logspace(-2, 3, 5000); % Range: 0.01 to 1000 rad/s
+[mag, phase] = bode(sys, omega);
+mag = squeeze(mag);
+phase = squeeze(phase);
+
+% Configure Plot Environment
+figure('Name', 'Advanced Polar Plot Response', 'NumberTitle', 'off');
+set(0, 'DefaultLineLineWidth', 2.5);
+
+% Plot polar trajectory
+polarplot(deg2rad(phase), mag, 'm-');
+hold on;
+
+% Highlight frequency boundaries
+polarplot(deg2rad(phase(1)), mag(1), 'go', 'MarkerFaceColor', 'g', 'MarkerSize', 8);   % Start (w -> 0)
+polarplot(deg2rad(phase(end)), mag(end), 'ro', 'MarkerFaceColor', 'r', 'MarkerSize', 8); % End (w -> Inf)
+
+% Formatting
+title('Unique Polar Plot (Quadrant Reversal Trajectory)', 'FontSize', 12);
+ax = gca;
+ax.ThetaZeroLocation = 'right'; % Standard 0 degrees reference configuration
+grid on;
+legend('Polar Trajectory', '\omega \rightarrow 0 (Starts at 180^{\circ})', '\omega \rightarrow \infty (Ends at -90^{\circ})', ...
+       'Location', 'southoutside');
